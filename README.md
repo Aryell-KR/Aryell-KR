@@ -45,9 +45,9 @@
 
 <!-- snake:start -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-month-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-month.svg">
-  <img src="./assets/github-snake-month.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-year-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-year.svg">
+  <img src="./assets/github-snake-year.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
 </picture>
 <!-- snake:end -->
 
