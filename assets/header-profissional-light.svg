@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Kauã — estudante de Ciência da Computação</title>
+  <desc id="desc">Identidade acadêmica em tons claros e violeta. UNIVASF, Salgueiro, Pernambuco.</desc>
+  <defs><linearGradient id="surface" x1="0" y1="0" x2="1200" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#F8F7FC"/><stop offset="1" stop-color="#F0EDF7"/></linearGradient></defs>
+  <rect x=".5" y=".5" width="1199" height="239" rx="10" fill="url(#surface)" stroke="#D9D2E7"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <text x="58" y="53" fill="#6D28D9" font-size="12" font-weight="600" letter-spacing="2.3">CIÊNCIA DA COMPUTAÇÃO</text>
+    <text x="54" y="133" fill="#242033" font-size="66" font-weight="600" letter-spacing="-2">Kauã</text>
+    <text x="58" y="173" fill="#494254" font-size="20">Estudante na UNIVASF</text>
+    <text x="58" y="204" fill="#635C70" font-size="14">Salgueiro, Pernambuco</text>
+  </g>
+  <path d="M830 43v154" stroke="#D0C6E0"/>
+  <g stroke="#735792" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M891 82c28-12 56-12 84 0 28-12 56-12 84 0v88c-28-12-56-12-84 0-28-12-56-12-84 0V82Z"/>
+    <path d="M975 82v88M907 102c17-5 34-5 51 0m-51 16c17-5 34-5 51 0m33-16c17-5 34-5 51 0m-51 16c17-5 34-5 51 0" opacity=".55"/>
+    <path d="M881 177c31-12 63-12 94 0 31-12 63-12 94 0" opacity=".4"/>
+  </g>
+  <path d="M58 226h1084" stroke="#6D28D9" stroke-opacity=".25"/>
+</svg>

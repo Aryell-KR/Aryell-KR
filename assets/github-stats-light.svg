@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="165" viewBox="0 0 900 165" role="img" aria-labelledby="title desc">
+  <title id="title">Atividade de Aryell-KR em 2026</title>
+  <desc id="desc">17 contribuições em 2026, 3 dias ativos em 2026 e 1 repositórios públicos. Dados até 2026-10-26.</desc>
+  <rect x=".5" y=".5" width="899" height="164" rx="12" fill="#ffffff" stroke="#d0d7de"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+  <text x="28" y="35" fill="#1f2328" font-size="17" font-weight="600">GitHub · 2026</text>
+  <text x="872" y="35" text-anchor="end" fill="#57606a" font-size="12">até 26/10/2026</text>
+  <text x="28" y="91" fill="#6d28d9" font-size="34" font-weight="600">17</text><text x="28" y="123" fill="#57606a" font-size="11" letter-spacing=".8">CONTRIBUIÇÕES VISÍVEIS NO ANO</text>
+<text x="322" y="91" fill="#6d28d9" font-size="34" font-weight="600">3</text><text x="322" y="123" fill="#57606a" font-size="11" letter-spacing=".8">DIAS COM ATIVIDADE NO ANO</text>
+<text x="616" y="91" fill="#6d28d9" font-size="34" font-weight="600">1</text><text x="616" y="123" fill="#57606a" font-size="11" letter-spacing=".8">REPOSITÓRIOS PÚBLICOS</text>
+  <path d="M306 63v70M600 63v70" stroke="#d0d7de"/>
+  </g></svg>

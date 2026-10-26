@@ -1,6 +1,8 @@
 <div align="center">
-  <img src="./assets/header-profissional.svg" alt="Kauã — Ciência da Computação na UNIVASF" width="100%">
-  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=17&amp;pause=900&amp;duration=2600&amp;color=B8A3E0&amp;center=true&amp;vCenter=true&amp;width=1000&amp;height=44&amp;lines=Bem-vindo%28a%29+a+este+ambiente+ca%C3%B3tico;Sinta-se+livre+para+explorar+e+aproveitar+o+que+voc%C3%AA+achar+%C3%BAtil" alt="Boas-vindas com efeito de digitação" width="100%">
+  <a href="./assets/header-profissional.svg#gh-dark-mode-only"><img src="./assets/header-profissional.svg" alt="Kauã — Ciência da Computação na UNIVASF" width="100%"></a>
+<a href="./assets/header-profissional-light.svg#gh-light-mode-only"><img src="./assets/header-profissional-light.svg" alt="Kauã — Ciência da Computação na UNIVASF" width="100%"></a>
+  <a href="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=17&amp;pause=900&amp;duration=2600&amp;color=B8A3E0&amp;center=true&amp;vCenter=true&amp;width=1000&amp;height=44&amp;lines=Bem-vindo%28a%29+a+este+ambiente+ca%C3%B3tico;Sinta-se+livre+para+explorar+e+aproveitar+o+que+voc%C3%AA+achar+%C3%BAtil#gh-dark-mode-only"><img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=17&amp;pause=900&amp;duration=2600&amp;color=B8A3E0&amp;center=true&amp;vCenter=true&amp;width=1000&amp;height=44&amp;lines=Bem-vindo%28a%29+a+este+ambiente+ca%C3%B3tico;Sinta-se+livre+para+explorar+e+aproveitar+o+que+voc%C3%AA+achar+%C3%BAtil" alt="Boas-vindas com efeito de digitação" width="100%"></a>
+<a href="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=17&amp;pause=900&amp;duration=2600&amp;color=6D28D9&amp;center=true&amp;vCenter=true&amp;width=1000&amp;height=44&amp;lines=Bem-vindo%28a%29+a+este+ambiente+ca%C3%B3tico;Sinta-se+livre+para+explorar+e+aproveitar+o+que+voc%C3%AA+achar+%C3%BAtil#gh-light-mode-only"><img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&amp;size=17&amp;pause=900&amp;duration=2600&amp;color=6D28D9&amp;center=true&amp;vCenter=true&amp;width=1000&amp;height=44&amp;lines=Bem-vindo%28a%29+a+este+ambiente+ca%C3%B3tico;Sinta-se+livre+para+explorar+e+aproveitar+o+que+voc%C3%AA+achar+%C3%BAtil" alt="Boas-vindas com efeito de digitação" width="100%"></a>
 </div>
 
 ## Sobre mim
@@ -33,24 +35,25 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" alt="C" title="C" width="34" height="34">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" title="JavaScript" width="34" height="34">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" title="Java" width="34" height="34">
-  <img src="https://cdn.simpleicons.org/gamemaker/B8A3E0" alt="GameMaker" title="GameMaker" width="34" height="34">
+  <a href="https://cdn.simpleicons.org/gamemaker/B8A3E0#gh-dark-mode-only"><img src="https://cdn.simpleicons.org/gamemaker/B8A3E0" alt="GameMaker" title="GameMaker" width="34" height="34"></a>
+<a href="https://cdn.simpleicons.org/gamemaker/6D28D9#gh-light-mode-only"><img src="https://cdn.simpleicons.org/gamemaker/6D28D9" alt="GameMaker" title="GameMaker" width="34" height="34"></a>
 </p>
 
 ## Atividade no GitHub
 
-<img src="./assets/github-stats.svg" alt="Contribuições visíveis no ano atual, dias ativos e repositórios públicos" width="100%">
-<img src="./assets/github-streak.svg" alt="Sequências diárias de contribuições — GitHub Readme Streak Stats" width="100%">
+<a href="./assets/github-stats.svg#gh-dark-mode-only"><img src="./assets/github-stats.svg" alt="Contribuições visíveis no ano atual, dias ativos e repositórios públicos" width="100%"></a>
+<a href="./assets/github-stats-light.svg#gh-light-mode-only"><img src="./assets/github-stats-light.svg" alt="Contribuições visíveis no ano atual, dias ativos e repositórios públicos" width="100%"></a>
+<a href="./assets/github-streak.svg#gh-dark-mode-only"><img src="./assets/github-streak.svg" alt="Sequências diárias de contribuições — GitHub Readme Streak Stats" width="100%"></a>
+<a href="./assets/github-streak-light.svg#gh-light-mode-only"><img src="./assets/github-streak-light.svg" alt="Sequências diárias de contribuições — GitHub Readme Streak Stats" width="100%"></a>
 
 ## Contribuições
 
 <!-- snake:start -->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-year-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-year.svg">
-  <img src="./assets/github-snake-year.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
-</picture>
+<a href="./assets/github-snake-year-dark.svg#gh-dark-mode-only"><img src="./assets/github-snake-year-dark.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
+<a href="./assets/github-snake-year.svg#gh-light-mode-only"><img src="./assets/github-snake-year.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
 <!-- snake:end -->
 
 <br>
 
-<img src="./assets/footer-profissional.svg" alt="Formação, prática e evolução" width="100%">
+<a href="./assets/footer-profissional.svg#gh-dark-mode-only"><img src="./assets/footer-profissional.svg" alt="Formação, prática e evolução" width="100%"></a>
+<a href="./assets/footer-profissional-light.svg#gh-light-mode-only"><img src="./assets/footer-profissional-light.svg" alt="Formação, prática e evolução" width="100%"></a>

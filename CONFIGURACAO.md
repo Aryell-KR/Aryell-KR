@@ -53,3 +53,9 @@ node scripts/update-profile.mjs
 ```
 
 As imagens usam o calendário público de contribuições do GitHub. Informações privadas que não aparecem publicamente não entram na contagem.
+
+## Tema claro e escuro
+
+O README usa os marcadores de tema do GitHub (`#gh-light-mode-only` e `#gh-dark-mode-only`) para exibir uma única versão de cada imagem conforme o tema da página. Banners, boas-vindas animadas, GameMaker, estatísticas, sequências e cobrinha têm cores próprias para cada tema. O texto normal acompanha o estilo nativo do GitHub. O botão do Instagram mantém o roxo com texto branco, legível nos dois modos.
+
+A atualização automática gera os cartões claros e escuros juntos, preservando o período e o limite de crescimento da cobrinha definidos em `profile.config.json`.

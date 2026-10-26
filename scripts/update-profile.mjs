@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createSnakeSvg, resolveSnakePeriod } from './contribution-snake.mjs';
+import { themedImage } from './theme-images.mjs';
 
 const assets = new URL('../assets/', import.meta.url);
 const username = process.env.PROFILE_USERNAME || 'Aryell-KR';
@@ -62,7 +63,7 @@ async function getRepositories() {
   return repos.filter((repo) => !repo.private);
 }
 
-function statsSvg(days, repos) {
+function statsSvg(days, repos, dark = true) {
   const annual = days.filter((d) => d.date.startsWith(`${year}-`));
   const contributions = annual.reduce((sum, d) => sum + d.count, 0);
   const active = annual.filter((d) => d.count > 0).length;
@@ -77,10 +78,11 @@ function statsSvg(days, repos) {
   ${metrics.map(([label, value], i) => `<text x="${28 + i * 294}" y="91" fill="#79a8ff" font-size="34" font-weight="600">${value.toLocaleString('pt-BR')}</text><text x="${28 + i * 294}" y="123" fill="#9da7b3" font-size="11" letter-spacing=".8">${label}</text>`).join('\n')}
   <path d="M306 63v70M600 63v70" stroke="#30363d"/>
   </g></svg>`;
-  return { svg, contributions, active };
+  const themed = dark ? svg : svg.replaceAll('#0d1117', '#ffffff').replaceAll('#30363d', '#d0d7de').replaceAll('#f0f6fc', '#1f2328').replaceAll('#8b949e', '#57606a').replaceAll('#79a8ff', '#6d28d9').replaceAll('#9da7b3', '#57606a');
+  return { svg: themed, contributions, active };
 }
 
-async function refreshStreak() {
+async function refreshStreak(dark = true) {
   const query = new URLSearchParams({
     user: username, theme: 'github-dark-blue', hide_border: 'true', locale: 'pt_BR', disable_animations: 'true',
     timezone, date_format: 'd/m/Y', starting_year: String(year),
@@ -88,9 +90,12 @@ async function refreshStreak() {
     background: '0D1117', ring: '79A8FF', fire: '79A8FF', currStreakLabel: '79A8FF',
     sideLabels: '9DA7B3', dates: '8B949E', stroke: '30363D',
   });
+  if (!dark) {
+    for (const [key, value] of Object.entries({theme: 'default', background: 'FFFFFF', ring: '6D28D9', fire: '6D28D9', currStreakLabel: '6D28D9', sideLabels: '57606A', dates: '57606A', stroke: 'D0D7DE', currStreakNum: '1F2328', sideNums: '1F2328'})) query.set(key, value);
+  }
   const svg = await get(`https://streak-stats.demolab.com/?${query}`);
   if (!svg.includes('<svg') || !svg.includes('</svg>') || (svg.match(/<text\b/g) || []).length < 4 || /(?:Error Fetching|Something went wrong|rate limit)/i.test(svg)) throw new Error('Invalid streak card response.');
-  await writeFile(new URL('github-streak.svg', assets), svg);
+  await writeFile(new URL(dark ? 'github-streak.svg' : 'github-streak-light.svg', assets), svg);
 }
 
 await mkdir(assets, { recursive: true });
@@ -98,13 +103,14 @@ const [html, repos] = await Promise.all([get(`https://github.com/users/${usernam
 const days = parseCalendar(html), result = statsSvg(days, repos);
 await Promise.all([
   writeFile(new URL('github-stats.svg', assets), result.svg),
+  writeFile(new URL('github-stats-light.svg', assets), statsSvg(days, repos, false).svg),
   ...['month', 'year'].flatMap(period => [false, true].map(dark =>
     writeFile(new URL(`github-snake-${period}${dark ? '-dark' : ''}.svg`, assets), createSnakeSvg(days, { today, period, username, dark, maxSegments: snakeMaxSegments }))
   )),
 ]);
-try { await refreshStreak(); } catch (error) {
+for (const dark of [true, false]) try { await refreshStreak(dark); } catch (error) {
   // A temporary outage keeps the previous snapshot instead of breaking the README.
-  await readFile(new URL('github-streak.svg', assets)).catch(() => { throw error; });
+  await readFile(new URL(dark ? 'github-streak.svg' : 'github-streak-light.svg', assets)).catch(() => { throw error; });
   console.warn(`Streak: keeping the last valid image (${error.message}).`);
 }
 if (profileConfig.snakePeriod !== snakePeriod) {
@@ -113,11 +119,7 @@ if (profileConfig.snakePeriod !== snakePeriod) {
 const readmeFile = new URL('../README.md', import.meta.url);
 const readme = await readFile(readmeFile, 'utf8');
 const imageBlock = `<!-- snake:start -->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-${snakePeriod}-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-${snakePeriod}.svg">
-  <img src="./assets/github-snake-${snakePeriod}.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
-</picture>
+${themedImage(`./assets/github-snake-${snakePeriod}-dark.svg`, `./assets/github-snake-${snakePeriod}.svg`, 'Cobrinha e barra de progresso das contribuições no período escolhido')}
 <!-- snake:end -->`;
 const blockPattern = /<!-- snake:start -->[\s\S]*?<!-- snake:end -->/;
 if (!blockPattern.test(readme)) throw new Error('README is missing the snake image block.');
