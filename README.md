@@ -41,13 +41,15 @@
 <img src="./assets/github-stats.svg" alt="Contribuições visíveis no ano atual, dias ativos e repositórios públicos" width="100%">
 <img src="./assets/github-streak.svg" alt="Sequências diárias de contribuições — GitHub Readme Streak Stats" width="100%">
 
-## Contribuições do mês
+## Contribuições
 
+<!-- snake:start -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-month-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/github-month.svg">
-  <img src="./assets/github-month.svg" alt="Cobrinha animada com as contribuições visíveis do mês atual" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-month-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-month.svg">
+  <img src="./assets/github-snake-month.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
 </picture>
+<!-- snake:end -->
 
 <br>
 

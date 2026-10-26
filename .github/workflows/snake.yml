@@ -1,0 +1,65 @@
+name: Atualizar imagens do perfil
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: Período da cobrinha (month = mês atual, year = ano atual)
+        type: choice
+        required: true
+        default: configured
+        options:
+          - configured
+          - month
+          - year
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - profile.config.json
+      - scripts/**
+      - .github/workflows/snake.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-images
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter arquivos
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validar o gerador da cobrinha
+        run: node --test scripts/contribution-snake.test.mjs
+
+      - name: Atualizar estatísticas e animações
+        run: node scripts/update-profile.mjs
+        env:
+          PROFILE_USERNAME: ${{ github.repository_owner }}
+          SNAKE_PERIOD: ${{ inputs.period }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publicar imagens atualizadas
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md profile.config.json assets/github-stats.svg assets/github-streak.svg assets/github-snake-month.svg assets/github-snake-month-dark.svg assets/github-snake-year.svg assets/github-snake-year-dark.svg
+          if git diff --cached --quiet; then
+            echo "As imagens já estão atualizadas."
+          else
+            git commit -m "Atualizar imagens do perfil"
+            git push origin HEAD:main
+          fi

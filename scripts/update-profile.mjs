@@ -1,9 +1,14 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createSnakeSvg, resolveSnakePeriod } from './contribution-snake.mjs';
 
 const assets = new URL('../assets/', import.meta.url);
 const username = process.env.PROFILE_USERNAME || 'Aryell-KR';
 if (!/^[a-z\d-]+$/i.test(username)) throw new Error('Invalid GitHub username.');
 const timezone = 'America/Fortaleza';
+const configFile = new URL('../profile.config.json', import.meta.url);
+const profileConfig = JSON.parse(await readFile(configFile, 'utf8'));
+const snakePeriod = resolveSnakePeriod(process.env.SNAKE_PERIOD, profileConfig.snakePeriod);
+const snakeMaxSegments = profileConfig.snakeMaxSegments ?? 18;
 const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
   timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit',
 }).formatToParts(new Date()).map(({ type, value }) => [type, value]));
@@ -75,55 +80,6 @@ function statsSvg(days, repos) {
   return { svg, contributions, active };
 }
 
-function snakeSvg(days, dark) {
-  days = days.filter((day) => day.date.startsWith(`${parts.year}-${parts.month}-`));
-  if (!days.length) throw new Error('Current-month contribution calendar is missing.');
-  const monthName = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${today}T12:00:00Z`));
-  const monthLabel = monthName[0].toUpperCase() + monthName.slice(1);
-  const monthlyContributions = days.reduce((sum, day) => sum + day.count, 0);
-  const first = new Date(`${days[0].date}T12:00:00Z`);
-  first.setUTCDate(first.getUTCDate() - first.getUTCDay());
-  const step = 30, cell = 22, left = 650, top = 37;
-  const dayIndex = (date) => Math.round((new Date(`${date}T12:00:00Z`) - first) / 86400000);
-  const weeks = Math.floor(dayIndex(days.at(-1).date) / 7) + 1;
-  const width = 900, height = 280;
-  const bg = dark ? '#0d1117' : '#ffffff';
-  const border = dark ? '#30363d' : '#d0d7de';
-  const muted = dark ? '#8b949e' : '#57606a';
-  const colors = dark ? ['#161b22', '#123b48', '#216476', '#3295a3', '#6bd0c5'] : ['#ebedf0', '#bde7df', '#7ec7bb', '#359b8a', '#116d60'];
-  const head = dark ? '#9dbdff' : '#345dc0';
-  // A continuous sweep; a cell is eaten when the head reaches it.
-  const route = [[-1, 0]];
-  for (let x = 0; x < weeks; x++) for (let k = 0; k < 7; k++) route.push([x, x % 2 ? 6 - k : k]);
-  let [rx, ry] = route.at(-1);
-  route.push([++rx, ry]);
-  while (ry >= 0) route.push([rx, --ry]);
-  while (rx > -1) route.push([--rx, ry]);
-  while (ry < -1) route.push([rx, ++ry]);
-  const count = route.length, duration = Math.max(16, Math.round(count * .25));
-  const routeIndex = new Map(route.slice(1, weeks * 7 + 1).map(([x, y], i) => [`${x},${y}`, i + 1]));
-  const cells = days.map((day) => {
-    const index = dayIndex(day.date), x = Math.floor(index / 7), y = index % 7;
-    const consume = (routeIndex.get(`${x},${y}`) / count).toFixed(6), color = colors[day.level];
-    if (!color) throw new Error(`Invalid contribution level for ${day.date}.`);
-    return `<rect x="${left + x * step}" y="${top + y * step}" width="${cell}" height="${cell}" rx="4" fill="${color}"><title>${day.date}: ${day.count} contribuições</title>${day.count ? `<animate attributeName="fill" values="${color};${colors[0]};${colors[0]}" keyTimes="0;${consume};1" calcMode="discrete" dur="${duration}s" repeatCount="indefinite"/>` : ''}</rect><text x="${left + x * step + cell / 2}" y="${top + y * step + 15}" text-anchor="middle" fill="${muted}" font-family="Segoe UI,Arial,sans-serif" font-size="9">${Number(day.date.slice(-2))}</text>`;
-  }).join('\n');
-  const segments = [3, 2, 1, 0].map((lag) => {
-    const points = Array.from({ length: count + 1 }, (_, i) => route[(i - lag + count) % count]);
-    const xs = points.map(([x]) => left + x * step).join(';'), ys = points.map(([, y]) => top + y * step).join(';');
-    return `<rect x="${left + points[0][0] * step}" y="${top + points[0][1] * step}" width="${cell}" height="${cell}" rx="6" fill="${head}" opacity="${1 - lag * .18}"><animate attributeName="x" values="${xs}" dur="${duration}s" repeatCount="indefinite"/><animate attributeName="y" values="${ys}" dur="${duration}s" repeatCount="indefinite"/></rect>`;
-  }).join('\n');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc" data-month="${parts.year}-${parts.month}" data-cycle-seconds="${duration}">
-  <title id="title">Cobrinha de ${escape(username)} — ${monthLabel}</title>
-  <desc id="desc">Dados reais do calendário público do GitHub, de ${days[0].date} a ${days.at(-1).date}. A animação se repete a cada ${duration} segundos.</desc>
-  <rect x=".5" y=".5" width="${width - 1}" height="${height - 1}" rx="12" fill="${bg}" stroke="${border}"/>
-  <g font-family="Segoe UI,Arial,sans-serif"><text x="32" y="49" fill="${muted}" font-size="11" letter-spacing="1.5">CONTRIBUIÇÕES DO MÊS</text><text x="32" y="98" fill="${dark ? '#f0f6fc' : '#1f2328'}" font-size="30" font-weight="600">${monthLabel}</text><text x="32" y="137" fill="${head}" font-size="17">${monthlyContributions} ${monthlyContributions === 1 ? 'contribuição visível' : 'contribuições visíveis'}</text><text x="32" y="174" fill="${muted}" font-size="12">${days[0].date.split('-').reverse().join('/')} — ${days.at(-1).date.split('-').reverse().join('/')}</text></g>
-  <path d="M515 40v193" stroke="${border}"/>
-  ${['D','S','T','Q','Q','S','S'].map((label, i) => `<text x="625" y="${top + i * step + 15}" fill="${muted}" font-family="Segoe UI,Arial,sans-serif" font-size="10">${label}</text>`).join('')}
-  ${cells}\n${segments}
-  <g font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="${muted}"><text x="32" y="232">Menos</text>${colors.map((c, i) => `<rect x="${72 + i * 15}" y="223" width="11" height="11" rx="2" fill="${c}"/>`).join('')}<text x="156" y="232">Mais</text></g></svg>`;
-}
-
 async function refreshStreak() {
   const query = new URLSearchParams({
     user: username, theme: 'github-dark-blue', hide_border: 'true', locale: 'pt_BR', disable_animations: 'true',
@@ -142,12 +98,29 @@ const [html, repos] = await Promise.all([get(`https://github.com/users/${usernam
 const days = parseCalendar(html), result = statsSvg(days, repos);
 await Promise.all([
   writeFile(new URL('github-stats.svg', assets), result.svg),
-  writeFile(new URL('github-month.svg', assets), snakeSvg(days, false)),
-  writeFile(new URL('github-month-dark.svg', assets), snakeSvg(days, true)),
+  ...['month', 'year'].flatMap(period => [false, true].map(dark =>
+    writeFile(new URL(`github-snake-${period}${dark ? '-dark' : ''}.svg`, assets), createSnakeSvg(days, { today, period, username, dark, maxSegments: snakeMaxSegments }))
+  )),
 ]);
 try { await refreshStreak(); } catch (error) {
   // A temporary outage keeps the previous snapshot instead of breaking the README.
   await readFile(new URL('github-streak.svg', assets)).catch(() => { throw error; });
   console.warn(`Streak: keeping the last valid image (${error.message}).`);
 }
-console.log(JSON.stringify({ username, today, timezone, calendarDays: days.length, month: `${parts.year}-${parts.month}`, contributionsThisMonth: days.filter(d => d.date.startsWith(`${parts.year}-${parts.month}-`)).reduce((sum,d) => sum+d.count,0), contributionsThisYear: result.contributions, activeDaysThisYear: result.active, publicRepositories: repos.length }, null, 2));
+if (profileConfig.snakePeriod !== snakePeriod) {
+  await writeFile(configFile, JSON.stringify({ ...profileConfig, snakePeriod }, null, 2) + '\n');
+}
+const readmeFile = new URL('../README.md', import.meta.url);
+const readme = await readFile(readmeFile, 'utf8');
+const imageBlock = `<!-- snake:start -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/github-snake-${snakePeriod}-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/github-snake-${snakePeriod}.svg">
+  <img src="./assets/github-snake-${snakePeriod}.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%">
+</picture>
+<!-- snake:end -->`;
+const blockPattern = /<!-- snake:start -->[\s\S]*?<!-- snake:end -->/;
+if (!blockPattern.test(readme)) throw new Error('README is missing the snake image block.');
+const updatedReadme = readme.replace(blockPattern, imageBlock);
+if (updatedReadme !== readme) await writeFile(readmeFile, updatedReadme);
+console.log(JSON.stringify({ username, today, timezone, snakePeriod, snakeMaxSegments, calendarDays: days.length, month: `${parts.year}-${parts.month}`, contributionsThisMonth: days.filter(d => d.date.startsWith(`${parts.year}-${parts.month}-`)).reduce((sum,d) => sum+d.count,0), contributionsThisYear: result.contributions, activeDaysThisYear: result.active, publicRepositories: repos.length }, null, 2));
