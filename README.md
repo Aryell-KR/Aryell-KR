@@ -49,8 +49,8 @@
 ## Contribuições
 
 <!-- snake:start -->
-<a href="./assets/github-snake-year-dark.svg#gh-dark-mode-only"><img src="./assets/github-snake-year-dark.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
-<a href="./assets/github-snake-year.svg#gh-light-mode-only"><img src="./assets/github-snake-year.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
+<a href="./assets/github-snake-month-dark.svg#gh-dark-mode-only"><img src="./assets/github-snake-month-dark.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
+<a href="./assets/github-snake-month.svg#gh-light-mode-only"><img src="./assets/github-snake-month.svg" alt="Cobrinha e barra de progresso das contribuições no período escolhido" width="100%"></a>
 <!-- snake:end -->
 
 <br>
